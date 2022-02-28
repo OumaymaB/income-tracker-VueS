@@ -1,26 +1,64 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <Header :totalIncome="addIncomes"/>
+    <Form @incomeMethode="add"/>
+    <IncomeList :incomeList="incomes"/>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from "./components/Header.vue";
+import Form from './components/Form.vue'
+import IncomeList from './components/IncomeList.vue'
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      incomes: [],
+    };
+  },
+  computed: {
+    addIncomes(){
+      let sum =0;
+      if(this.incomes.length > 0){
+        for(let i=0; i<this.incomes.length; i++ ){
+          sum = sum + this.incomes[i].value;
+        }
+      }
+      return sum;
+    }
   }
-}
+  ,
+  components: {
+    Header,
+    Form,
+    IncomeList
+  },
+  methods:{
+    add(data){
+      this.incomes = [...this.incomes,data];
+    }
+  },
+  created(){
+    this.incomes=[
+      {
+        id: "id01",
+        desc : "train",
+        value : 20,
+        date : "2022/02/28"
+      }
+    ]
+  }
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+* {
+  box-sizing: border-box;
+  margin: 0%;
+}
+
+body {
+  background-color: #DAD8DE;
 }
 </style>
